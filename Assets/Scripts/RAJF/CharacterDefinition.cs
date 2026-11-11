@@ -27,6 +27,26 @@ namespace RAJF
         public float AbilityDuration => Mathf.Max(0f, abilityDuration);
         public float AbilityCooldown => Mathf.Max(0.1f, abilityCooldown);
         public float AbilityPower => Mathf.Max(0f, abilityPower);
+        public string AbilityDescription
+        {
+            get
+            {
+                switch (id)
+                {
+                    case CharacterId.Scavenger:
+                        return "Sprint: +50% speed for " + Mathf.CeilToInt(AbilityDuration) + "s";
+                    case CharacterId.Phantom:
+                        return "Cloak: hidden for " + Mathf.CeilToInt(AbilityDuration) + "s";
+                    case CharacterId.MysticMedic:
+                        return "Heal: restore " + Mathf.RoundToInt(AbilityPower) + " health";
+                    case CharacterId.HeavyDefender:
+                        return "Shield: +" + Mathf.RoundToInt(AbilityPower) + " for " +
+                               Mathf.CeilToInt(AbilityDuration) + "s";
+                    default:
+                        return "Special ability";
+                }
+            }
+        }
 
         public CharacterDefinition(
             CharacterId characterId,

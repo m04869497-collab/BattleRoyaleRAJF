@@ -22,6 +22,15 @@
 
 يدعم كود الحركة وإطلاق النار والقدرة حزمة Input System الجديدة عند تفعيلها، كما يدعم Input Manager القديم من دون استخدام `Input.GetAxis`. في **Edit → Project Settings → Player → Active Input Handling** اختر **Input System Package (New)** أو **Both** إذا أردت النظام الجديد؛ تأكد من تثبيت حزمة Input System من Package Manager. يمكن استخدام **Input Manager (Old)** للاختبار أيضًا.
 
+## الشخصيات والقدرات
+
+- **Scavenger:** زيادة سرعة الحركة 50% لمدة 3 ثوانٍ؛ انتظار 12 ثانية.
+- **Phantom:** إخفاء النموذج بصريًا لمدة 4 ثوانٍ؛ انتظار 16 ثانية.
+- **Mystic Medic:** استعادة 35 نقطة صحة فورًا؛ انتظار 18 ثانية.
+- **Heavy Defender:** إضافة 35 نقطة درع مؤقت لمدة 6 ثوانٍ؛ انتظار 20 ثانية.
+
+يعرض HUD مدة التأثير النشط ووقت الانتظار. القيم مخصصة للتجربة ويمكن تعديلها في `GameSession`.
+
 ## Android وGitHub Actions
 
 1. ثبّت Unity 6 مع **Android Build Support** وAndroid SDK/NDK وOpenJDK من Unity Hub.

@@ -93,7 +93,8 @@ namespace RAJF
                 ? "Choose a character"
                 : selected.DisplayName + "\nHP " + Mathf.RoundToInt(selected.MaxHealth) +
                   "  |  Shield " + Mathf.RoundToInt(selected.MaxShield) +
-                  "  |  Ability cooldown " + Mathf.RoundToInt(selected.AbilityCooldown) + "s";
+                  "\n" + selected.AbilityDescription + "  |  Cooldown " +
+                  Mathf.RoundToInt(selected.AbilityCooldown) + "s";
         }
 
         public void Refresh()
@@ -159,7 +160,7 @@ namespace RAJF
             }
 
             selectedText = CreateText(menuPanel.transform, "SelectedCharacter",
-                "Choose a character", 16, new Vector2(0.5f, 0.27f), new Vector2(620f, 52f));
+                "Choose a character", 15, new Vector2(0.5f, 0.27f), new Vector2(700f, 72f));
             Button startButton = CreateButton(menuPanel.transform, "StartButton",
                 "Start Local Match", 20, new Vector2(0.5f, 0.17f), new Vector2(260f, 52f));
             startButton.onClick.AddListener(() =>
