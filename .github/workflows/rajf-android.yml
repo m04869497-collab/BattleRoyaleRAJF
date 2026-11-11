@@ -1,0 +1,75 @@
+name: RAJF Android Build
+
+on:
+  push:
+    branches: ["main", "master"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  resolve-unity-version:
+    name: Read Unity version
+    runs-on: ubuntu-latest
+    outputs:
+      ready: ${{ steps.version.outputs.ready }}
+      unity_version: ${{ steps.version.outputs.unity_version }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Read ProjectSettings/ProjectVersion.txt
+        id: version
+        shell: bash
+        run: |
+          file="ProjectSettings/ProjectVersion.txt"
+          if [[ ! -f "$file" ]]; then
+            echo "::warning file=ProjectSettings/ProjectVersion.txt::Unity project metadata is missing. Create/open the project in Unity 6 and commit ProjectSettings before building."
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          version="$(sed -n 's/^m_EditorVersion: *//p' "$file" | head -n 1 | tr -d '\r')"
+          if [[ -z "$version" ]]; then
+            echo "::error file=ProjectSettings/ProjectVersion.txt::Could not read m_EditorVersion."
+            exit 1
+          fi
+          if [[ ! "$version" =~ ^6000\. ]]; then
+            echo "::error file=ProjectSettings/ProjectVersion.txt::Expected a Unity 6 editor version (6000.x), found: $version"
+            exit 1
+          fi
+
+          echo "unity_version=$version" >> "$GITHUB_OUTPUT"
+          echo "ready=true" >> "$GITHUB_OUTPUT"
+          echo "Using Unity editor version $version from ProjectSettings/ProjectVersion.txt"
+
+  build-android:
+    name: Build Android APK
+    needs: resolve-unity-version
+    if: needs.resolve-unity-version.outputs.ready == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          lfs: false
+
+      - name: Build Android release
+        uses: game-ci/unity-builder@v4
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+        with:
+          targetPlatform: Android
+          unityVersion: ${{ needs.resolve-unity-version.outputs.unity_version }}
+          buildName: RAJF_BattleRoyale
+          buildsPath: build
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: RAJF_BattleRoyale_Android
+          path: build/**/*.apk
+          if-no-files-found: error
+          retention-days: 30

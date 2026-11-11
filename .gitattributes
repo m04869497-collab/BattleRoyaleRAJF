@@ -1,0 +1,29 @@
+# Normalize source and Unity text files to LF.
+* text=auto
+*.cs text eol=lf
+*.asmdef text eol=lf
+*.asmref text eol=lf
+*.shader text eol=lf
+*.compute text eol=lf
+*.cginc text eol=lf
+*.hlsl text eol=lf
+*.glsl text eol=lf
+*.json text eol=lf
+*.txt text eol=lf
+*.md text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.meta text eol=lf
+*.unity text eol=lf
+*.prefab text eol=lf
+*.asset text eol=lf
+*.mat text eol=lf
+*.anim text eol=lf
+*.controller text eol=lf
+*.overrideController text eol=lf
+*.inputactions text eol=lf
+*.physicMaterial text eol=lf
+*.renderTexture text eol=lf
+
+# No Git LFS rules are enabled. Add them only if the project later includes
+# large binary assets that should be versioned with Git LFS.
